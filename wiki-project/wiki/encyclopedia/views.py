@@ -13,21 +13,20 @@ from . import util
 
 # /wiki
 def index(request):    
-    if request.method == "POST":
-        q = request.POST["q"]
-        q = q.lower()
-
-        if util.get_entry(q) != None:
-            return HttpResponseRedirect(reverse("wiki:entry", args = [q]))
-        else:
-            entries = []
-            for entry in util.list_entries():
-                if q in entry:
-                    entries.append(entry)
-
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
+
+# /wiki/search
+def search(request):
+    q = request.GET["q"]
+    if util.get_entry(q) != None:
+        return HttpResponseRedirect(reverse("wiki:entry", args = [q]))
+    entries = []
+    for entry in util.list_entries():
+        if q in entry:
+            entries.append(entry)
+    return render(request, "encyclopedia/index.html", {"entries": entries})
 
 # /wiki/<str:title>
 def get_entry(request, title):
