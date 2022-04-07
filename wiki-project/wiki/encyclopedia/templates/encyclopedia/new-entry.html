@@ -1,0 +1,28 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Create New Page
+{% endblock %}
+
+{% block body %}
+
+    <h2 style = "margin-left: 40px; font-weight: bold;">New Page</h2>
+    <form action = "{% url 'wiki:newentry' %}" method = "post">
+        {% csrf_token %}
+        {{ from.non_field_errors }}
+        <ul style = "list-style-type: none;">
+            <li>
+                {{ form.title.label_tag }}
+                {{ form.title }}
+                {{ form.title.errors }}
+            </li>
+            <li>
+                <label for = "{{ from.content.id_for_label }}" id = "content-label">Content:</label>
+                {{ form.content }}
+                {{ form.content.errors }}
+            </li>
+        </ul>
+        <input class = "btn btn-primary save-btn" type = "submit" value = "save">
+    </form>
+
+{% endblock %}
