@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    
+    {% if not message %}
+        <div class = "listing">
+            {% if listing.image %}
+                {% load static %} <img src = "/static/auctions/media/{{listing.image}}">
+            {% endif %}
+
+            <div class = "details">
+                <h3><b>{{ listing.title }}</b></h3>
+                <div class = "listing-fields">
+                    <label>Description:</label> <p>{{ listing.description }}</p>
+                    {% if listing.current_price %}
+                        <label>Current Price:</label> <p>{{ listing.current_price }}</p>
+                    {% else %}
+                        <label>Current Price:</label> <p>{{ listing.starting_bid }}</p>
+                    {% endif %}
+                    <label>Created:</label> <p>{{ listing.date_time }}</p>
+                    <label>Seller:</label> <p>{{ listing.seller.username }}</p>
+                </div>
+                <a class = "btn btn-primary" href = "{% url 'auctions:addtowatchlist' listing.id %}">Add to Watchlist</a>
+                {% if listing.seller == user %}
+                    <a class = "btn btn-primary" href = "{% url 'auctions:closeauction' listing.id %}">Close Auction</a>
+                {% endif %}
+                
+            </div> 
+        </div>
+
+        <h3 style = "margin-left: 10px; font-weight: bold;">Place Bid</h3>
+        <form class = "place-bid-form" action = "{% url 'auctions:viewlisting' listing.id %}" method = "post">
+            {% csrf_token %}
+            {{ bidform.amount }}
+            {{ bidform.non_field_errors }}
+            <input class = "btn btn-primary" type = "submit" value = "Place Bid">
+        </form>
+    {% else %}
+        <h1>{{ message }}</h1>
+    {% endif %}
+
+{% endblock %}

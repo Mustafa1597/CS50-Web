@@ -1,16 +1,26 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.db.models import Max
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.forms import ModelForm, Textarea
 from datetime import datetime
+from django import forms
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Listing, Comment, Bid
 
 
 def index(request):
-    return render(request, "auctions/index.html", {"listings": Listing.objects.all()})
+    return render(request, "auctions/index.html", {
+            "listings": Listing.objects.filter(active = True)
+            .annotate(current_price = Max("bids__amount"))
+            .order_by("date_time")
+        })
 
 
 def login_view(request):
@@ -72,6 +82,8 @@ class ListingForm(ModelForm):
             "description": Textarea(attrs = {"rows": 5})
         }
 
+
+@login_required
 def create_listing(request):
     if request.method == "POST":
         modelform = ListingForm(request.POST)
@@ -85,3 +97,54 @@ def create_listing(request):
     else:
         form = ListingForm()
         return render(request, "auctions/create-listing.html", {"form": form})
+
+class BidForm(ModelForm):
+    class Meta:
+        model = Bid
+        fields = ["amount"]
+        widgets = {
+            "amount": forms.NumberInput(attrs = {"placeholder": "Bid"})
+        }
+
+def listing_view(request, listing_id):
+    listing = Listing.objects.get(pk = listing_id)
+    if not listing.active:
+        max_bid = listing.bids.aggregate(max_bid = Max("amount"))
+        winner = listing.bids.get(amount = max_bid.get("max_bid")).bidder
+        message = "Auction has Closed"
+        if request.user == winner:
+            message += ", You Are The Winner"
+        return render(request, "auctions/listing.html", {
+            "message": message
+        })
+
+    bidform = BidForm()
+    if request.method == "POST":
+        bidform = BidForm(request.POST)
+        bidform.instance.bidder = request.user
+        bidform.instance.listing = Listing.objects.get(pk = listing_id)
+        if bidform.is_valid():
+            bidform.save()
+            return HttpResponseRedirect(reverse("auctions:viewlisting", args = [listing_id]))
+            
+    return render(request, "auctions/listing.html", {
+        "listing": Listing.objects.annotate(current_price = Max("bids__amount")).get(pk = listing_id),
+        "bidform": bidform
+    })
+
+def watchlist_view(request):
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": User.objects.get(pk = request.user.id).watchlist.all()
+    })
+
+def add_to_watchlist(request, listing_id):
+    if request.user.is_authenticated:
+        listing = Listing.objects.get(pk = listing_id)
+        User.objects.get(pk = request.user.id).watchlist.add(listing)
+        return HttpResponseRedirect(reverse("auctions:viewwatchlist"))
+    else:
+        return HttpResponseRedirect(reverse("auctions:login"))
+
+def close_auction(request, listing_id):
+    Listing.objects.filter(pk = listing_id).update(active = False)
+    return HttpResponseRedirect(reverse("auctions:viewlisting", args = [listing_id]))

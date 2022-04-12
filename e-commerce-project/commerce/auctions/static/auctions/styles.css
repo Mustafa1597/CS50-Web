@@ -17,16 +17,32 @@ body {
     margin-left: 50px;  
 }
 
-.details {
+.listing .details {
     margin: 5px;
     margin-left: 30px;
 }
 
-.details div, a {
+.listing .details div, a {
     font-size: 18px;
     margin-left: 20px;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.listing .details .listing-fields {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-auto-rows: 30px;
+}
+
+.listing-fields label {
+    color: red;
+    font-weight: bold;
+}
+
+.listing-fields p {
+    font-weight: bold;
+    margin-left: 10px;
 }
 
 .create-listing-form {
@@ -41,22 +57,45 @@ body {
     /* border: 1px solid green; */
 }
 
-.listing-fields {
+.create-listing-form .listing-fields {
     display: grid;
     width: 350px;
     grid-template-columns: 1fr 1fr;
     /* border: 1px solid black; */
 }
 
-.listing-fields * {
+.create-listing-form .listing-fields * {
     margin: 5px;
 }
 
-.listing-fields label {
+.create-listing-form.listing-fields label {
     font-weight: bold;
 }
 
-.create-btn {
+.create-listing-form.create-btn {
     margin-top: 10px;
 }
 
+.place-bid-form {
+    margin: 10px;
+}
+
+.place-bid-form input[type = "number"]  {
+    height: 35px;
+    width: 200px;
+    border-radius: 5px;    
+}
+
+.place-bid-form label {
+    font-weight: bold;
+}
+
+.errorlist {
+    list-style-type: none;
+    padding: 0px;
+    color:red;
+    font-family: 'Courier New';
+    font-size: 12px;
+    font-weight: bold; 
+    margin-top: 5px;
+}

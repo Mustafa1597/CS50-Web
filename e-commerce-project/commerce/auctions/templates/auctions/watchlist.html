@@ -2,8 +2,8 @@
 
 {% block body %}
     
-    <h2>Active Listings</h2>
-    {% for listing in listings %}
+    <h2>Watchlist</h2>
+    {% for listing in watchlist %}
         <div class = "listing">
             {% if listing.image %}
                 {% load static %} <img src = "/static/auctions/media/{{listing.image}}">
