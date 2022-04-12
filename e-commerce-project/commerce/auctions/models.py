@@ -1,6 +1,8 @@
+from email.policy import default
 from tkinter import CASCADE
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from datetime import datetime
 
 class User(AbstractUser):
     pass
@@ -10,10 +12,10 @@ class Listing(models.Model):
     observers = models.ManyToManyField(User, related_name = "observees", blank = True)
 
     title = models.CharField(max_length = 128)
-    description = models.CharField(max_length = 1024)
+    description = models.TextField(max_length = 1024)
     starting_bid = models.IntegerField()
     category = models.CharField(max_length = 50)
-    date_time = models.DateTimeField()
+    date_time = models.DateTimeField(auto_now = True)
     image = models.ImageField(blank = True)
 
     def __str__(self):
@@ -25,7 +27,7 @@ class Comment(models.Model):
     writer = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "comments")
     
     content = models.CharField(max_length = 256)
-    date_time = models.DateTimeField()
+    date_time = models.DateTimeField(default = datetime.now)
 
     def __str__(self):
         return f"{self.writer} => {self.listing}"
