@@ -1,0 +1,28 @@
+{% extends 'auctions/layout.html' %}
+
+
+{% block body %}
+
+    <h2 style = "margin-left: 10px;">Create New Listing</h2>
+    <form class = "create-listing-form" action = "{% url 'auctions:createlisting' %}" method = "post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div>
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <div class = "listing-fields">
+            {% for field in form %}
+            {{ field.label_tag }} {{ field }}
+            {% if field.errors %}
+                <div>
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <input class = "btn btn-primary create-btn" type = "submit" value = "Create Listing">
+    </form>
+
+{% endblock %}
