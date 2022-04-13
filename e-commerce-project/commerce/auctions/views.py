@@ -77,7 +77,7 @@ def register(request):
 class ListingForm(ModelForm):
     class Meta():
         model = Listing
-        exclude = ["seller", "observers", "date_time"]
+        exclude = ["seller", "spectators", "date_time"]
         widgets = {
             "description": Textarea(attrs = {"rows": 5})
         }
@@ -120,18 +120,23 @@ def listing_view(request, listing_id):
 
     bidform = BidForm()
     if request.method == "POST":
-        bidform = BidForm(request.POST)
-        bidform.instance.bidder = request.user
-        bidform.instance.listing = Listing.objects.get(pk = listing_id)
-        if bidform.is_valid():
-            bidform.save()
-            return HttpResponseRedirect(reverse("auctions:viewlisting", args = [listing_id]))
+        if request.user.is_authenticated:
+            bidform = BidForm(request.POST)
+            bidform.instance.bidder = request.user
+            bidform.instance.listing = Listing.objects.get(pk = listing_id)
+            if bidform.is_valid():
+                bidform.save()
+                return HttpResponseRedirect(reverse("auctions:viewlisting", args = [listing_id]))
+        else:
+            return HttpResponseRedirect(reverse("auctions:login"))
             
     return render(request, "auctions/listing.html", {
         "listing": Listing.objects.annotate(current_price = Max("bids__amount")).get(pk = listing_id),
+        "comments": Listing.objects.get(pk = listing_id).comments.all(),
         "bidform": bidform
     })
 
+@login_required
 def watchlist_view(request):
     return render(request, "auctions/watchlist.html", {
         "watchlist": User.objects.get(pk = request.user.id).watchlist.all()

@@ -35,6 +35,17 @@
             {{ bidform.non_field_errors }}
             <input class = "btn btn-primary" type = "submit" value = "Place Bid">
         </form>
+
+        <h3 style = "margin-left: 10px; font-weight: bold;">Comments</h3>
+        <div class = "comments">
+            {% for comment in comments %}
+                <div class = "comment">
+                    <div class = "writer">{{ comment.writer }}</div>
+                    <div class = "content">{{ comment.content }}</div>
+                    <div class = "datetime">{{ comment.datetime }}</div>
+                </div>
+            {% endfor %}
+        </div>
     {% else %}
         <h1>{{ message }}</h1>
     {% endif %}

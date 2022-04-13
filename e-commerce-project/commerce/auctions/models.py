@@ -35,7 +35,7 @@ class Comment(models.Model):
     writer = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "comments")
     
     content = models.CharField(max_length = 256)
-    date_time = models.DateTimeField(default = datetime.now)
+    date_time = models.DateTimeField(auto_now = True)
 
     def __str__(self):
         return f"{self.writer} => {self.listing}"
@@ -53,7 +53,8 @@ class Bid(models.Model):
     def clean(self):
         if self.amount <= self.listing.starting_bid:
             raise ValidationError("your bid should be greater than the starting bid")
-        if self.amount <= self.listing.bids.aggregate(current_price = Max("amount"))["current_price"]:
-            raise ValidationError("your bid should be greater than the current price")
+        if not self.listing.bids:
+            if self.amount <= self.listing.bids.aggregate(current_price = Max("amount"))["current_price"]:
+                raise ValidationError("your bid should be greater than the current price")
         super().clean()
 
