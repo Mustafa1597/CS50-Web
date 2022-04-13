@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    
+    <h2>Active Listings</h2>
+    {% for listing in listings %}
+        <div class = "listing">
+            {% if listing.image %}
+                {% load static %} <img src = "/static/auctions/media/{{listing.image}}">
+            {% endif %}
+
+            <div class = "details">
+                <h3><b>{{ listing.title }}</b></h3>
+                <div><b>Description:</b> {{ listing.description }}</div>
+                {% if listing.current_price %}
+                    <div><b>Current Price:</b> {{ listing.current_price }}</div>
+                {% else %}
+                    <div><b>Current Price:</b> {{ listing.starting_bid }}</div>
+                {% endif %}
+                <div><b>Created:</b> {{ listing.date_time }}</div>
+                <a class = "btn btn-primary" href = "{% url 'auctions:viewlisting' listing.id %}">View Details</a>
+            </div>
+        </div>
+    {% empty %}
+        <h3 style = "margin: 10px;">There are no active listings for this category.</h3>
+    {% endfor %}
+
+{% endblock %}

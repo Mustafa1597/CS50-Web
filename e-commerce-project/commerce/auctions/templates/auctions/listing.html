@@ -46,6 +46,13 @@
                 </div>
             {% endfor %}
         </div>
+        
+        <form class = "write-comment" action = "{% url 'auctions:addcomment' listing.id %}" method = "post">
+            {% csrf_token %}
+            {{ commentform.content }}
+            <input class = "btn btn-primary" type = "submit">
+        </form>
+       
     {% else %}
         <h1>{{ message }}</h1>
     {% endif %}

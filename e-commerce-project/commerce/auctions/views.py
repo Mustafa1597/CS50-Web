@@ -106,6 +106,18 @@ class BidForm(ModelForm):
             "amount": forms.NumberInput(attrs = {"placeholder": "Bid"})
         }
 
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["content"]
+        widgets = {
+            "content": forms.Textarea(attrs = {
+                "placeholder": "Write a comment...",
+                "cols": 50,
+                "rows": 5
+            })
+        }
+
 def listing_view(request, listing_id):
     listing = Listing.objects.get(pk = listing_id)
     if not listing.active:
@@ -119,6 +131,7 @@ def listing_view(request, listing_id):
         })
 
     bidform = BidForm()
+    commentform = CommentForm()
     if request.method == "POST":
         if request.user.is_authenticated:
             bidform = BidForm(request.POST)
@@ -133,7 +146,8 @@ def listing_view(request, listing_id):
     return render(request, "auctions/listing.html", {
         "listing": Listing.objects.annotate(current_price = Max("bids__amount")).get(pk = listing_id),
         "comments": Listing.objects.get(pk = listing_id).comments.all(),
-        "bidform": bidform
+        "bidform": bidform,
+        "commentform": commentform
     })
 
 @login_required
@@ -153,3 +167,26 @@ def add_to_watchlist(request, listing_id):
 def close_auction(request, listing_id):
     Listing.objects.filter(pk = listing_id).update(active = False)
     return HttpResponseRedirect(reverse("auctions:viewlisting", args = [listing_id]))
+
+@login_required
+def add_comment(request, listing_id):
+    if request.method == "POST":
+        commentform = CommentForm(request.POST)
+        if commentform.is_valid():
+            comment = commentform.save(commit = False)
+            comment.listing = Listing.objects.get(pk = listing_id)
+            comment.writer = request.user
+            comment.save()
+        return HttpResponseRedirect(reverse("auctions:viewlisting", args = [listing_id]))
+
+def categories_view(request):
+    return render(request, "auctions/categories.html", {
+        "categories": Listing.objects.values_list("category", flat = True).distinct().all()
+    })
+
+def category_view(request, category):
+    return render(request, "auctions/category.html", {
+        "listings": Listing.objects.filter(category = category)
+        .filter(active = True)
+        .all()
+    })

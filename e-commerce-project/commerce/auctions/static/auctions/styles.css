@@ -126,3 +126,23 @@ body {
 .comments .comment .datetime {
     color: lightgray;
 }
+
+.write-comment {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid blue;
+    border-radius: 5px;
+    margin: 10px;
+    margin-left: 16px;
+    padding: 5px;
+}
+
+.write-comment * {
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.categories {
+    margin: 12px;
+}
