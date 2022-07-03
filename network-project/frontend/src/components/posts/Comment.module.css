@@ -1,0 +1,65 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  margin: 5px;
+  padding: 10px;
+
+  border-radius: 5px;
+  background-color: rgb(32, 32, 32);
+}
+
+.comment span {
+  margin: 5px;
+}
+
+.comment .username {
+  color: rgb(16, 134, 0);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.comment .username:hover {
+  color: rgb(46, 161, 46);
+}
+
+.comment span:nth-child(2) {
+  color: rgb(135, 173, 0);
+  font-weight: bold;
+}
+
+.footer {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer span {
+  color: white;
+}
+
+.delete-button {
+  width: 20%;
+
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: rgb(255, 80, 80);
+}
+
+.delete-button:active {
+  background-color: red;
+}

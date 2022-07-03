@@ -1,0 +1,78 @@
+.title {
+  /* color: rgb(14, 134, 138); */
+  color: orange;
+  text-align: center;
+  font-size: 34px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid gray;
+}
+
+hr {
+  margin: 0px;
+  padding: 0px;
+  height: 0px;
+}
+
+.users {
+  list-style-type: none;
+  /* text-align: center; */
+}
+
+.link {
+  color: rgb(255, 81, 17);
+  font-weight: bold;
+  font-size: 30px;
+  display: inline-block;
+  padding: 5px;
+}
+
+.link:hover {
+  color: rgb(255, 106, 52);
+}
+
+.container {
+  background-color: rgb(32, 32, 32);
+
+  width: 25%;
+  min-height: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  /* border: 2px solid rgb(179, 13, 68); */
+  box-shadow: 0px 1px 5px white;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container button {
+  margin-top: 60px;
+  background-color: rgb(73, 73, 73);
+  color: orange;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+.container button:hover {
+  background-color: rgb(102, 102, 102);
+}
+
+.container button:active {
+  background-color: rgb(73, 73, 73);
+}
+
+.no-users {
+  color: orangered;
+  font-size: 30px;
+  margin: auto;
+  font-weight: bold;
+}

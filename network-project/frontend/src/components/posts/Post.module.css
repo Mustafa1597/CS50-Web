@@ -1,0 +1,119 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 70%;
+  padding: 10px;
+  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: rgb(32, 32, 32);
+  font-family: "Courier New", Courier, monospace;
+  color: white;
+  font-size: 20px;
+
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgb(0, 0, 0);
+  overflow: auto;
+}
+
+.content {
+  margin-top: 10px;
+}
+
+.expanded-content {
+}
+
+.compressed-content {
+  cursor: pointer;
+}
+
+.compressed-content span {
+  color: yellow;
+}
+
+.link {
+  color: purple;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: rgb(190, 0, 190);
+}
+
+.like-button {
+  width: 80px;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  background-color: orangered;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+
+  cursor: pointer;
+}
+
+.like-button:hover {
+  background-color: rgb(255, 82, 19);
+}
+
+.like-button:active {
+  background-color: orangered;
+}
+
+.post-date {
+  color: blue;
+  margin-top: 10px;
+}
+
+/* refactoring */
+.post-footer {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.left {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  /* color: rgb(182, 0, 199); */
+  color: rgb(255, 31, 68);
+}
+
+.left .like {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+  cursor: pointer;
+}
+
+.left .like span:nth-child(2) {
+  margin-left: 5px;
+}
+
+.left .comment {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+  cursor: pointer;
+}
+
+.left .comment span:nth-child(2) {
+  margin-left: 5px;
+}
+
+.left div:hover {
+  text-decoration: underline;
+}

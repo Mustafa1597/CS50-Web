@@ -1,0 +1,104 @@
+h1 {
+  text-align: center;
+  color: rgb(41, 41, 41);
+  padding: 0px;
+  margin: 0px;
+}
+
+.form {
+  width: 45%;
+  height: 370px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
+
+  border: 1px solid rgb(32, 32, 32);
+  border-radius: 5px;
+  box-shadow: 0px 1px 5px black;
+  background-color: rgb(228, 228, 228);
+
+  overflow: auto;
+}
+
+.form-controls {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  margin: 5px;
+}
+
+.form-control label {
+  font-weight: bold;
+  text-shadow: 1px 1px 5px white;
+  margin-bottom: 5px;
+}
+
+.form-control input {
+  padding: 5px;
+  border: 1px solid rgb(129, 0, 129);
+  border-radius: 5px;
+
+  font-size: 16px;
+}
+
+.form-control input:focus {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  box-shadow: 1px 1px 2px black, -1px -1px 2px black;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.form-actions button {
+  width: 40%;
+
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgb(32, 32, 32);
+  color: white;
+  font-size: 16px;
+
+  cursor: pointer;
+}
+
+.form-actions button:hover {
+  background-color: rgb(54, 54, 54);
+}
+
+.form-actions button:active {
+  background-color: rgb(32, 32, 32);
+}
+
+.form-actions button:disabled {
+  background-color: darkgray;
+}
+
+.error {
+  font-size: 13px;
+  color: red;
+  padding-top: 5px;
+}
+
+.response-error {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+}
